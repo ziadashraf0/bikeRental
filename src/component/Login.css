@@ -1,0 +1,13 @@
+body {
+  background: url("https://images.pexels.com/photos/303077/pexels-photo-303077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+.loginForm {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
