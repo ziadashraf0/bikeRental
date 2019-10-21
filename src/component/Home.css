@@ -18,3 +18,18 @@ body {
   margin-left: 900px;
   margin-bottom: 500px;
 }
+.confirmSSN {
+  width: 100%;
+}
+.removeSSN {
+  width: 100%;
+}
+.users {
+  padding: 60px;
+  width: 20%;
+  height: 40%;
+  margin-left: 400px;
+}
+.usersText {
+  margin-right: 50px;
+}

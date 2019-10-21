@@ -53,12 +53,16 @@ class Home extends Component {
           </div>
         </div>
         {this.state.isConfirmDialogOpen && (
-          <dialog open>
+          <dialog className="border-primary bg-secondary" open>
             <form>
-              <input type="number" name="confirmSSn" id="ssn"></input>
+              <input
+                type="number"
+                id="confirmSSN"
+                placeholder="Enter SSN to remove owner"
+              ></input>
             </form>
             <button
-              className="btn btn-danger"
+              className="btn-danger m-2"
               onClick={this.handleConfirmClose}
             >
               Confirm
@@ -66,15 +70,22 @@ class Home extends Component {
           </dialog>
         )}
         {this.state.isRemoveDialogOpen && (
-          <dialog open>
+          <dialog className="border-primary bg-secondary" open>
             <form>
-              <input type="number" name="removeSSN" id="removeSSN"></input>
+              <input
+                type="number"
+                id="removeSSN"
+                placeholder="Enter SSN to remove owner"
+              ></input>
             </form>
-            <button className="btn btn-danger" onClick={this.handleRemoveClose}>
+            <button className="btn-danger m-2" onClick={this.handleRemoveClose}>
               Remove
             </button>
           </dialog>
         )}
+        <div className="users bg-primary ">
+          <span className="usersText font-italic font-weight-bold">Users</span>
+        </div>
       </div>
     );
   }
