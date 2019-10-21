@@ -1,0 +1,20 @@
+body {
+  height: 100vh;
+}
+.homeContainer {
+  background: url("");
+
+  height: 100vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bar {
+  height: 100vh;
+}
+.confirmButton {
+  margin-left: 900px;
+  margin-bottom: 500px;
+}

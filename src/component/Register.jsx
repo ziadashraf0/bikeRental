@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { directive } from "@babel/types";
 import "./Register.css";
 
 class Register extends Component {
@@ -49,6 +48,7 @@ class Register extends Component {
               className="form-control "
             />
             <br></br>
+
             <button className="btn btn-danger m-3">login</button>
           </div>
         </form>

@@ -1,9 +1,3 @@
-body {
-  background: url("https://images.pexels.com/photos/303077/pexels-photo-303077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-    no-repeat center center fixed;
-
-  background-size: cover;
-}
 .registerForm {
   max-width: 50%;
   margin-left: auto;
