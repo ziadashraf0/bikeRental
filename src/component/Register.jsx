@@ -16,6 +16,10 @@ class Register extends Component {
     let path = "/login";
     this.props.history.push(path);
   }
+  home() {
+    let path = "/home";
+    this.props.history.push(path);
+  }
   render() {
     return (
       <body className="register">
@@ -61,7 +65,12 @@ class Register extends Component {
                 className="form-control "
               />
               <br></br>
-              <button className="btn btn-danger m-3">Sign up</button>
+              <button
+                className="btn btn-danger m-3"
+                onClick={() => this.home()}
+              >
+                Sign up
+              </button>
               {/* <button
               className="btn btn-danger m-3"
               onClick={() => this.nextPath()}
