@@ -5,6 +5,10 @@ import Register from "./Register";
 
 class Login extends Component {
   state = {};
+  home() {
+    let path = "/home";
+    this.props.history.push(path);
+  }
   render() {
     return (
       <body id="login" className="backGround">
@@ -44,7 +48,9 @@ class Login extends Component {
             </form>
             <br></br>
             <div class="col text-cener"></div>
-            <button className="btn btn-danger ">login</button>
+            <button className="btn btn-danger " onClick={() => this.home()}>
+              login
+            </button>
           </div>
         </div>
       </body>

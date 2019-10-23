@@ -3,6 +3,7 @@ import Dialog from "react-dialog";
 import "./Home.css";
 class Home extends Component {
   state = {};
+
   constructor() {
     super();
     this.state = {
@@ -22,7 +23,7 @@ class Home extends Component {
       <div className="homeContainer">
         <div className="bar bg-dark border border-danger float-left p-2">
           <span>
-            <h1 className="font-italic font-weight-bold text-success">
+            <h1 className="font-italic font-weight-bold text-primary">
               BikeRental
             </h1>
           </span>
@@ -53,7 +54,11 @@ class Home extends Component {
           </div>
         </div>
         {this.state.isConfirmDialogOpen && (
-          <dialog className="border-primary bg-secondary" open>
+          <dialog
+            className="border-primary bg-secondary "
+            modal={false}
+            open={true}
+          >
             <form>
               <input
                 type="number"
@@ -70,7 +75,11 @@ class Home extends Component {
           </dialog>
         )}
         {this.state.isRemoveDialogOpen && (
-          <dialog className="border-primary bg-secondary" open>
+          <dialog
+            className="border-primary bg-secondary"
+            modal={false}
+            open={true}
+          >
             <form>
               <input
                 type="number"
