@@ -11,6 +11,14 @@ class Home extends Component {
       isRemoveDialogOpen: false
     };
   }
+  Dashboard() {
+    let path = "/home";
+    this.props.history.push(path);
+  }
+  SignOut() {
+    let path = "/login";
+    this.props.history.push(path);
+  }
 
   openConfirmDialog = () => this.setState({ isConfirmDialogOpen: true });
   openRemoveDialog = () => this.setState({ isRemoveDialogOpen: true });
@@ -21,7 +29,7 @@ class Home extends Component {
   render() {
     return (
       <div className="homeContainer">
-        <div className="bar bg-dark border border-danger float-left p-2">
+        <div className="bar bg-dark border border-dark float-left p-2">
           <span>
             <h1 className="font-italic font-weight-bold text-primary">
               BikeRental
@@ -29,8 +37,24 @@ class Home extends Component {
           </span>
 
           <ul>
-            <li className=" text-danger">Dashboard</li>
-            <li className=" text-info">sign out</li>
+            <li className=" text-danger">
+              <a
+                className="text-danger"
+                onClick={() => this.Dashboard()}
+                href=""
+              >
+                Dashboard
+              </a>
+            </li>
+            <li className=" text-info">
+              <a
+                className="text-warning"
+                onClick={() => this.SignOut()}
+                href=""
+              >
+                sign out
+              </a>
+            </li>
           </ul>
         </div>
         <div className="handle">
@@ -92,9 +116,9 @@ class Home extends Component {
             </button>
           </dialog>
         )}
-        <div className="users bg-primary ">
+        {/* <div className="users bg-primary ">
           <span className="usersText font-italic font-weight-bold">Users</span>
-        </div>
+        </div> */}
       </div>
     );
   }
