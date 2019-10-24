@@ -5,17 +5,34 @@ body {
   background: url("");
 
   height: 100vh;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 .bar {
   height: 100vh;
 }
-.homeContainer {
+body {
   background-image: url("https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+  background-position: 20% 10%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+}
+.navbar a:hover {
+  background: #ddd;
+  color: black;
 }
 .confirmButton {
   margin-left: 900px;
@@ -47,4 +64,13 @@ body {
   inline-size: 200px;
   display: flex;
   margin: auto;
+}
+.search {
+  width: 500px;
+  height: 40px;
+  margin-bottom: 50px;
+  display: inline-block;
+}
+.searchButton {
+  display: inline-block;
 }

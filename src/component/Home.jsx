@@ -22,78 +22,88 @@ class Home extends Component {
   handlePromoCodeClose = () => this.setState({ isPromoCodeDialogOpen: false });
   render() {
     return (
-      <div className="homeContainer">
-        <div className="bar bg-dark border border-danger float-left p-2">
-          <span>
-            <h1 className="font-italic font-weight-bold text-primary">
-              BikeRental
-            </h1>
-          </span>
-
-          <ul>
-            <li className=" text-danger">Dashboard</li>
-            <li className=" text-info">sign out</li>
-          </ul>
-        </div>
-
-        <div className="handle">
-          <div className="confirmOwner ">
-            <button
-              className="btn btn-primary m-2 dropdown-toggle"
-              id="dropdownMenuButton"
-              onClick={this.openPromoCodeDialog}
-            >
-              Add Bikes
-            </button>
+      <body>
+        <div>
+          <div class="navbar">
+            <a href="#home">Home</a>
+            <a href="#news">Edit profile</a>
+            <a href="#contact">Send promocodes</a>
           </div>
-        </div>
-        {this.state.isPromoCodeDialogOpen && (
-          <dialog className="box border-primary" modal={false} open={true}>
-            <form className="confirmForm text-light">
-              <div className="form-group  ">
-                <label>Add Owner SSN: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <label>Add Bike Category: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <label>Add Bike Color: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <label>Add Bike Size: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <label>Add Bike Rate: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <label>Add Bike Condition: </label>
-                <input type="text" />
-              </div>
-              <div className="form-group">
-                <input
-                  type="submit"
-                  value="Add Bike"
-                  className="btn btn-primary"
-                  onClick={this.handlePromoCodeClose}
-                />
 
+          <div className="handle">
+            <div>
+              <form>
                 <input
-                  type="submit"
-                  value="Cancel"
-                  className="btn btn-danger m-2 btn-sm"
-                  onClick={this.handlePromoCodeClose}
+                  className="search  ml-2 "
+                  type="text"
+                  placeholder="Search"
+                  onChange={this.filterList}
                 />
-              </div>
-            </form>
-          </dialog>
-        )}
+                <button
+                  className=" searchButton btn btn-primary m-2 "
+                  id="searchButton"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
+            <div className="confirmOwner ">
+              <button
+                className="btn btn-primary m-2 dropdown-toggle"
+                id="dropdownMenuButton"
+                onClick={this.openPromoCodeDialog}
+              >
+                Add Bikes
+              </button>
+            </div>
+          </div>
+          {this.state.isPromoCodeDialogOpen && (
+            <dialog className="box border-primary" modal={false} open={true}>
+              <form className="confirmForm text-light">
+                <div className="form-group  ">
+                  <label>Add Owner SSN: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <label>Add Bike Category: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <label>Add Bike Color: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <label>Add Bike Size: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <label>Add Bike Rate: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <label>Add Bike Condition: </label>
+                  <input type="text" />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="submit"
+                    value="Add Bike"
+                    className="btn btn-primary"
+                    onClick={this.handlePromoCodeClose}
+                  />
 
-        {/* <div className="removeOwner">
+                  <input
+                    type="submit"
+                    value="Cancel"
+                    className="btn btn-danger m-2 "
+                    onClick={this.handlePromoCodeClose}
+                  />
+                </div>
+              </form>
+            </dialog>
+          )}
+
+          {/* <div className="removeOwner">
             <button
               className="btn btn-danger m-2 dropdown-toggle"
               onClick={this.openRemoveDialog}
@@ -170,10 +180,11 @@ class Home extends Component {
             </form>
           </dialog>
         )} */}
-        {/* <div className="users bg-primary ">
+          {/* <div className="users bg-primary ">
           <span className="usersText font-italic font-weight-bold">Users</span>
         </div> */}
-      </div>
+        </div>
+      </body>
     );
   }
 }
