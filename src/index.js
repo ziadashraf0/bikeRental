@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from "react-router-dom";
 import Home from "./component/Home";
 import PieChart from "./test";
+import information from "./component/OwnerInfo";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Login from "./component/Login";
 import Register from "./component/Register";
 import Home from "./component/Home";
+import information from "./component/OwnerInfo";
+
 import {
   BrowserRouter as Router,
   Link,
@@ -18,6 +20,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/owner" component={information} />
             <Route path="/home" component={Home} />
           </Switch>
         </div>
