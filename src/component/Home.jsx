@@ -8,16 +8,18 @@ class Home extends Component {
     super();
     this.state = {
       isConfirmDialogOpen: false,
-      isRemoveDialogOpen: false
+      isRemoveDialogOpen: false,
+      isPromoCodeDialogOpen: false
     };
   }
 
-  openConfirmDialog = () => this.setState({ isConfirmDialogOpen: true });
-  openRemoveDialog = () => this.setState({ isRemoveDialogOpen: true });
+  // openConfirmDialog = () => this.setState({ isConfirmDialogOpen: true });
+  // openRemoveDialog = () => this.setState({ isRemoveDialogOpen: true });
+  openPromoCodeDialog = () => this.setState({ isPromoCodeDialogOpen: true });
 
-  handleConfirmClose = () => this.setState({ isConfirmDialogOpen: false });
-  handleRemoveClose = () => this.setState({ isRemoveDialogOpen: false });
-
+  // handleConfirmClose = () => this.setState({ isConfirmDialogOpen: false });
+  // handleRemoveClose = () => this.setState({ isRemoveDialogOpen: false });
+  handlePromoCodeClose = () => this.setState({ isPromoCodeDialogOpen: false });
   render() {
     return (
       <div className="homeContainer">
@@ -39,13 +41,59 @@ class Home extends Component {
             <button
               className="btn btn-primary m-2 dropdown-toggle"
               id="dropdownMenuButton"
-              onClick={this.openConfirmDialog}
+              onClick={this.openPromoCodeDialog}
             >
-              Add Owners
+              Add Bikes
             </button>
           </div>
+        </div>
+        {this.state.isPromoCodeDialogOpen && (
+          <dialog className="box border-primary" modal={false} open={true}>
+            <form className="confirmForm text-light">
+              <div className="form-group  ">
+                <label>Add Owner SSN: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <label>Add Bike Category: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <label>Add Bike Color: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <label>Add Bike Size: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <label>Add Bike Rate: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <label>Add Bike Condition: </label>
+                <input type="text" />
+              </div>
+              <div className="form-group">
+                <input
+                  type="submit"
+                  value="Add Bike"
+                  className="btn btn-primary"
+                  onClick={this.handlePromoCodeClose}
+                />
 
-          <div className="removeOwner">
+                <input
+                  type="submit"
+                  value="Cancel"
+                  className="btn btn-danger m-2 btn-sm"
+                  onClick={this.handlePromoCodeClose}
+                />
+              </div>
+            </form>
+          </dialog>
+        )}
+
+        {/* <div className="removeOwner">
             <button
               className="btn btn-danger m-2 dropdown-toggle"
               onClick={this.openRemoveDialog}
@@ -80,6 +128,13 @@ class Home extends Component {
                   className="btn btn-primary"
                   onClick={this.handleConfirmClose}
                 />
+
+                <input
+                  type="submit"
+                  value="Cancel"
+                  className="btn btn-danger m-2 btn-sm"
+                  onClick={this.handleConfirmClose}
+                />
               </div>
             </form>
           </dialog>
@@ -96,15 +151,28 @@ class Home extends Component {
                 id="removeSSN"
                 placeholder="Enter SSN to remove owner"
               ></input>
+
+              <div className="form-group">
+                <input
+                  type="submit"
+                  value="Remove Owner"
+                  className="btn btn-primary"
+                  onClick={this.handleRemoveClose}
+                />
+
+                <input
+                  type="submit"
+                  value="Cancel"
+                  className="btn btn-danger m-2 btn-sm"
+                  onClick={this.handleRemoveClose}
+                />
+              </div>
             </form>
-            <button className="btn-danger m-2" onClick={this.handleRemoveClose}>
-              Remove
-            </button>
           </dialog>
-        )}
-        <div className="users bg-primary ">
+        )} */}
+        {/* <div className="users bg-primary ">
           <span className="usersText font-italic font-weight-bold">Users</span>
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -36,3 +36,15 @@ body {
 .usersText {
   margin-right: 50px;
 }
+.box {
+  position: absolute;
+  margin-top: -20px;
+  background: transparent;
+  background: rgba(0, 0, 0, 0.5);
+}
+.confirmForm input[type="text"] {
+  padding-left: 5px;
+  inline-size: 200px;
+  display: flex;
+  margin: auto;
+}
