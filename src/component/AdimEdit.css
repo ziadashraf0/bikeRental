@@ -1,0 +1,17 @@
+.Edit{
+    display: inline-block;
+    padding-left: 100px;
+
+}
+.email{
+    display: inline-block;
+
+}
+
+.pass{
+    margin-right: 180px;
+
+}
+.backGround {
+    background-image: url("1211359-bicycle-wallpaper.jpg");
+}
