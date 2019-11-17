@@ -3,6 +3,22 @@ import Dialog from "react-dialog";
 import "./Home.css";
 class Home extends Component {
   state = {};
+  edit() {
+    let path = "/edit";
+    this.props.history.push(path);
+  }
+  home() {
+    let path = "/home";
+    this.props.history.push(path);
+  }
+  search() {
+    let path = "/owner";
+    this.props.history.push(path);
+  }
+  adminProfile() {
+    let path = "/adminProfile";
+    this.props.history.push(path);
+  }
 
   constructor() {
     super();
@@ -25,9 +41,13 @@ class Home extends Component {
       <body>
         <div>
           <div class="navbar">
-            <a href="#home">Home</a>
-            <a href="#news">Edit profile</a>
-            <a href="#contact">Send promocodes</a>
+            <a href="" onClick={() => this.adminProfile()}>
+              View profile
+            </a>
+            <a href="" onClick={() => this.edit()}>
+              Edit profile
+            </a>
+            <a href="">Send promocodes</a>
           </div>
 
           <div className="handle">
@@ -42,6 +62,7 @@ class Home extends Component {
                 <button
                   className=" searchButton btn btn-primary m-2 "
                   id="searchButton"
+                  onClick={() => this.search()}
                 >
                   Search
                 </button>

@@ -2,13 +2,30 @@ import React, { Component } from "react";
 
 import "./Login.css";
 import Register from "./Register";
+import { validate } from "@babel/types";
 
 class Login extends Component {
-  state = {};
-  home() {
-    let path = "/home";
-    this.props.history.push(path);
-  }
+  state = {
+    namee: " ",
+    passwordd: " "
+  };
+
+  validateEmail = () => {
+    this.state.namee = document.getElementById("username").value;
+    this.state.passwordd = document.getElementById("password").value;
+
+    var regexname = /\S+/;
+
+    if (
+      regexname.test(this.state.namee) == 0 ||
+      regexname.test(this.state.passwordd) == 0
+    ) {
+      alert("validation");
+    } else {
+      let path = "/home";
+      this.props.history.push(path);
+    }
+  };
   render() {
     return (
       <body id="login" className="backGround">
@@ -30,7 +47,7 @@ class Login extends Component {
                 name="email"
                 value={this.state.email}
                 onChange={this.handleChange}
-                id="email"
+                id="username"
                 placeholder="User name"
                 className="form-control input"
               />
@@ -48,10 +65,16 @@ class Login extends Component {
             </form>
             <br></br>
             <div class="col text-cener"></div>
-            <button className="btn btn-danger " onClick={() => this.home()}>
+            <button className="btn btn-danger " onClick={this.validateEmail}>
               login
             </button>
           </div>
+          <a className="bottom-left m-5" href="">
+            About Us
+          </a>
+          <a className="cont bottom-left " href="">
+            Contact Us
+          </a>
         </div>
       </body>
     );

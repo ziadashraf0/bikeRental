@@ -1,17 +1,13 @@
-.Edit{
-    display: inline-block;
-    padding-left: 100px;
-
+.input {
+  display: inline-block;
 }
-.email{
-    display: inline-block;
-
+.button {
+  text-align: center;
 }
 
-.pass{
-    margin-right: 180px;
-
+.pass {
+  margin-right: 180px;
 }
 .backGround {
-    background-image: url("1211359-bicycle-wallpaper.jpg");
+  background-image: url("1211359-bicycle-wallpaper.jpg");
 }

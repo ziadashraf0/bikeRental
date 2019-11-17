@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./OwnerInfo.css";
+import "./adminProfile.css";
 class information extends Component {
   state = {};
   render() {
@@ -32,20 +32,6 @@ class information extends Component {
               </tr>
             </tbody>
           </table>
-          <div className="handle">
-            <button
-              className="confirmButton btn-lg btn-primary m-2"
-              onClick={this.handleConfirm}
-            >
-              Confirm
-            </button>
-            <button
-              className="removeButton btn-lg btn-danger"
-              onClick={this.handleRemove}
-            >
-              Remove
-            </button>
-          </div>
         </div>
       </body>
     );

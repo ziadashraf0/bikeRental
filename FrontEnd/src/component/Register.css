@@ -6,3 +6,13 @@
 .register {
   background-image: url("1211359-bicycle-wallpaper.jpg");
 }
+.bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.cont {
+  display: inline-block;
+  margin-left: 140px;
+  margin-top: 80px;
+}

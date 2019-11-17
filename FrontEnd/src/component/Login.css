@@ -10,3 +10,13 @@
 .password {
   background: transparent;
 }
+.bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.cont {
+  display: inline-block;
+  margin-left: 50px;
+  margin-bottom: 50px;
+}
