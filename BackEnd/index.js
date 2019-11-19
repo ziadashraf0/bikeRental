@@ -4,6 +4,11 @@ const app = express();
 const Joi = require('joi');
 const portNumber = 4000;
 const Admin = require('./Routes/admin');
+const BodyParser = require("body-parser");
+
+
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({ extended: true }));
 
 //Connecting to Beskleta DataBase ;
 mongoose.connect('mongodb://localhost/Beskleta', { useNewUrlParser: true, useUnifiedTopology: true }).then(
