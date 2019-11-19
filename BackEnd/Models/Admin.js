@@ -3,20 +3,20 @@ const AdminSchema = new mongoose.Schema({
 
     SSN: {
         type: Number,
-      // required: true,
-      // unique: true,
-       // primaryKey: true
+      required: true,
+       unique: true,
+       primaryKey: true
     },
     email: {
         type: String,
 
-       //required: true,
-      // unique: true
+       required: true,
+       unique: true
     },
     password: String,
     phoneNumber: String,
-    firstName: String,
-    lastName: String,
+    userName: String,
+    
     birthDate: Date
 
 });

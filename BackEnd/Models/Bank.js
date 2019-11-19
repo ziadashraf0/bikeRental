@@ -8,13 +8,14 @@ const BankSchema = new mongoose.Schema({
         primaryKey: true
     },
     name: String,
-    Balance: Number,
+    Balance: mongoose.Decimal128,
     cardValidityDate: Date,
     PIN: Number,
     cardNumber: Number,
     email: {
         type: String,
-        unique: true
+        unique: true,
+        required:true
     },
     password: String,
     

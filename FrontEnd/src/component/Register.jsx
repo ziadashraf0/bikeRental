@@ -3,7 +3,7 @@ import { directive } from "@babel/types";
 import "./Register.css";
 import login from "./Login";
 import Route from "react-router-dom/Route";
-import {adminRegister} from "../services/adminRegisterService";
+import { adminRegister} from "../services/adminServices";
 
 import {
   withRouter,
@@ -13,8 +13,14 @@ import {
   Redirect
 } from "react-router-dom";
 class Register extends Component {
+    reqBody = {
+        name: "",
+        password: " ",
+        email: "",
+        SSN: ""
+    };
   state = {
-    namee: " ",
+    namee: "",
     passwordd: " ",
     email: "",
     SSN: ""
@@ -32,20 +38,24 @@ class Register extends Component {
     var regex = /\S+@\S+\.\S+/;
     var regexname = /\S+/;
 
-    if (
-      regex.test(this.state.email) == 0 ||
-      regexname.test(this.state.namee) == 0 ||
-      regexname.test(this.state.passwordd) == 0 ||
-      regexname.test(this.state.SSN) == 0
+      if (
+          regex.test(this.state.email) == 0 ||
+          regexname.test(this.state.namee) == 0 ||
+          regexname.test(this.state.passwordd) == 0 ||
+          regexname.test(this.state.SSN) == 0
+        
     ) {
       alert("validation error");
-      this.props.history.push();
-    } //else {
+        this.props.history.push();
+        return false;
+      }
+      return true;
+      //else {
       //let path = "/home";
       //this.props.history.push(path);
     //}
     };
-    async registerAdmin() {
+   /*async registerAdmin() {
         //this.validateEmail();
         const body = {
             "email": this.state.email,
@@ -56,7 +66,11 @@ class Register extends Component {
         console.log(body);
       await this. adminRegister(body);
         this.nextPath();
-    };
+    };*/
+    async register() {
+        alert('register');
+        await this.faking();
+};
   render() {
     return (
       <body className="register">
@@ -65,8 +79,8 @@ class Register extends Component {
             {" "}
             Sign up{" "}
           </h1>
-          <br></br>
-          <form className="registerForm" id="registerForm" >
+                <br></br>
+                <form className="registerForm" id="registerForm" method="onsubmit">
             <div className="form-group" className="text-center mb-5">
               <input
                 type="text"
@@ -102,16 +116,35 @@ class Register extends Component {
                 className="form-control "
               />
               <br></br>
-              <button
-                className="btn btn-danger m-3"
+                        <button
+                            className="btn btn-danger m-3"
                             onClick={
 
-                                () => this.registerAdmin.bind(this)
+                               
+                                
+                                
+                                
+                                async () => {
+
+                                    if (this.validateEmail()) {
+                                        this.reqBody.name = this.state.namee
+                                        this.reqBody.email = this.state.email
+                                        this.reqBody.password = this.state.passwordd
+                                        this.reqBody.SSN = this.state.SSN
+                                        await adminRegister(this.reqBody)
+                                        this.nextPath()
+
+                                    }
 
 
-                            }
-              >
-                Register
+                        }
+                           // alert('posting');
+                            //this.adminRegister.bind(this);
+                            //this.nextPath();
+                        
+                    }
+      >
+        Register
               </button>
 
               {/* <button
