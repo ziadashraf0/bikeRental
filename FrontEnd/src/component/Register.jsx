@@ -23,7 +23,7 @@ class Register extends Component {
     namee: "",
     passwordd: " ",
     email: "",
-    SSN: ""
+      SSN: ""
   };
   nextPath() {
     let path = "/login";
@@ -50,27 +50,31 @@ class Register extends Component {
         return false;
       }
       return true;
-      //else {
-      //let path = "/home";
-      //this.props.history.push(path);
-    //}
+   
     };
-   /*async registerAdmin() {
-        //this.validateEmail();
-        const body = {
-            "email": this.state.email,
-            "SSN": this.state.SSN,
-            "name": this.state.namee,
-            "password": this.state.passwordd
-        };
-        console.log(body);
-      await this. adminRegister(body);
-        this.nextPath();
-    };*/
-    async register() {
-        alert('register');
-        await this.faking();
-};
+   
+  async onClick() {
+
+        if (this.validateEmail()) {
+            this.reqBody.name = this.state.namee
+            this.reqBody.email = this.state.email
+            this.reqBody.password = this.state.passwordd
+            this.reqBody.SSN = this.state.SSN
+           
+            try {
+                await adminRegister(this.reqBody)
+                this.nextPath();
+            } catch(error){
+                if (error.response.status === 400) {
+                    alert('already exists');
+                }
+            };
+            
+
+
+
+        }
+    }
   render() {
     return (
       <body className="register">
@@ -80,7 +84,7 @@ class Register extends Component {
             Sign up{" "}
           </h1>
                 <br></br>
-                <form className="registerForm" id="registerForm" method="onsubmit">
+                <form className="registerForm" id="registerForm" >
             <div className="form-group" className="text-center mb-5">
               <input
                 type="text"
@@ -118,41 +122,16 @@ class Register extends Component {
               <br></br>
                         <button
                             className="btn btn-danger m-3"
-                            onClick={
-
-                               
-                                
-                                
-                                
-                                async () => {
-
-                                    if (this.validateEmail()) {
-                                        this.reqBody.name = this.state.namee
-                                        this.reqBody.email = this.state.email
-                                        this.reqBody.password = this.state.passwordd
-                                        this.reqBody.SSN = this.state.SSN
-                                        await adminRegister(this.reqBody)
-                                        this.nextPath()
-
-                                    }
-
-
-                        }
-                           // alert('posting');
-                            //this.adminRegister.bind(this);
-                            //this.nextPath();
-                        
-                    }
+                            type="button"
+                            onClick={this.onClick.bind(this)}
+                            
+                         
+                    
       >
         Register
               </button>
 
-              {/* <button
-              className="btn btn-danger m-3"
-              onClick={() => this.nextPath()}
-            >
-              hy
-            </button> */}
+              {}
               <a onClick={() => this.nextPath()} href="">
                 Login
               </a>

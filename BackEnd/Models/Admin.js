@@ -15,7 +15,12 @@ const AdminSchema = new mongoose.Schema({
     },
     password: String,
     phoneNumber: String,
-    userName: String,
+    userName: {
+        type: String,
+
+        required: true,
+        unique: true
+    },
     
     birthDate: Date
 

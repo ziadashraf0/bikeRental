@@ -6,6 +6,7 @@ import Home from "./component/Home";
 import information from "./component/OwnerInfo";
 import AdminEdit from "./component/AdminEdit";
 import AdmminProfile from "./component/adminProfile";
+
 import {
   BrowserRouter as Router,
   Link,

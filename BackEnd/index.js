@@ -4,9 +4,11 @@ const app = express();
 const Joi = require('joi');
 const portNumber = 4000;
 const Admin = require('./Routes/admin');
-const BodyParser = require("body-parser");
+var BodyParser = require("body-parser");
+var cors = require('cors');
 
-
+app.use(cors());
+app.use(express.json());
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 
@@ -20,7 +22,7 @@ mongoose.connect('mongodb://localhost/Beskleta', { useNewUrlParser: true, useUni
     }
 );
 
-app.use(express.json());
+
 app.use('/admin', Admin);
 
 
