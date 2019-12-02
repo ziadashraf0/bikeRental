@@ -1,34 +1,93 @@
 import React, { Component, useState } from "react";
 import Dialog from "react-dialog";
 import "./Home.css";
+import { stringify } from "querystring";
+import DialogBody from "react-dialog/dist/DialogBody";
+import OwnerInfo from "./OwnerInfo";
+import { ownerIDSearch } from "../services/ownerServices";
+import { clientIDSearch } from "../services/clientServices";
+
 class Home extends Component {
   state = {};
-  edit() {
-    let path = "/edit";
-    this.props.history.push(path);
-  }
-  home() {
-    let path = "/home";
-    this.props.history.push(path);
-  }
-  search() {
-    let path = "/owner";
-    this.props.history.push(path);
-  }
-  adminProfile() {
-    let path = "/adminProfile";
-    this.props.history.push(path);
-  }
 
   constructor() {
     super();
     this.state = {
+      clientSSN: "",
+      ownerSSN: "",
       isConfirmDialogOpen: false,
       isRemoveDialogOpen: false,
       isPromoCodeDialogOpen: false
     };
+    this.reqBody = { ownerSSN: "", clientSSN: "" };
   }
 
+  edit() {
+    let path = "/edit";
+    this.props.history.push({
+      pathname: path,
+      state: {
+        userName: this.props.location.state.userName
+      }
+    });
+  }
+
+  home() {
+    let path = "/home";
+    this.props.history.push(path);
+  }
+  searchOwner(result) {
+    let path = "/owner";
+    this.props.history.push({
+      pathname: path,
+      state: {
+        ownerSSN: this.state.ownerSSN,
+        result: result
+      }
+    });
+  }
+  searchClient(result) {
+    let path = "/client";
+    this.props.history.push({
+      pathname: path,
+      state: {
+        ownerSSN: this.state.ownerSSN,
+        result: result
+      }
+    });
+  }
+  adminProfile() {
+    let path = "/adminProfile";
+
+    this.props.history.push(path);
+  }
+
+  async onClick() {
+    this.state.ownerSSN = document.getElementById("SSN").value;
+    this.state.clientSSN = document.getElementById("SSN").value;
+
+    this.reqBody.ownerSSN = this.state.ownerSSN;
+    this.reqBody.clientSSN = this.state.ownerSSN;
+    var flag = 0;
+    try {
+      let result = await ownerIDSearch(this.reqBody);
+      this.searchOwner(result);
+    } catch (error) {
+      if (error.response.status === 400) {
+        flag = 1;
+      }
+    }
+    if (flag === 1) {
+      try {
+        let result = await clientIDSearch(this.reqBody);
+        this.searchClient(result);
+      } catch (error) {
+        if (error.response.status === 400) {
+          alert("cannot find client/owner by this SSN");
+        }
+      }
+    }
+  }
   // openConfirmDialog = () => this.setState({ isConfirmDialogOpen: true });
   // openRemoveDialog = () => this.setState({ isRemoveDialogOpen: true });
   openPromoCodeDialog = () => this.setState({ isPromoCodeDialogOpen: true });
@@ -39,35 +98,35 @@ class Home extends Component {
   render() {
     return (
       <body>
-        <div>
-          <div class="navbar">
-            <a href="" onClick={() => this.adminProfile()}>
-              View profile
-            </a>
-            <a href="" onClick={() => this.edit()}>
-              Edit profile
-            </a>
-            <a href="">Send promocodes</a>
-          </div>
-
-          <div className="handle">
-            <div>
-              <form>
-                <input
-                  className="search  ml-2 "
-                  type="text"
-                  placeholder="Search"
-                  onChange={this.filterList}
-                />
-                <button
-                  className=" searchButton btn btn-primary m-2 "
-                  id="searchButton"
-                  onClick={() => this.search()}
-                >
-                  Search
-                </button>
-              </form>
+        <div className="navbar">
+          <a href="" onClick={() => this.adminProfile()}>
+            View profile
+          </a>
+          <a href="" onClick={() => this.edit()}>
+            Edit profile
+          </a>
+          <a href="">Send promocodes</a>
+        </div>
+        <div className="handle">
+          <div>
+            <div className="form">
+              <input
+                className="search text-center"
+                type="text"
+                id="SSN"
+                placeholder="Search by SSN"
+                onChange={this.filterList}
+              />
+              <button
+                className="searchButton btn btn-primary  "
+                name="searchButton"
+                id="searchButton"
+                onClick={this.onClick.bind(this)}
+              >
+                Search
+              </button>
             </div>
+
             <div className="confirmOwner ">
               <button
                 className="btn btn-primary m-2 dropdown-toggle"

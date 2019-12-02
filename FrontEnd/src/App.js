@@ -3,9 +3,11 @@ import React, { Component } from "react";
 import Login from "./component/Login";
 import Register from "./component/Register";
 import Home from "./component/Home";
-import information from "./component/OwnerInfo";
+import OwnerInfo from "./component/OwnerInfo";
 import AdminEdit from "./component/AdminEdit";
 import AdmminProfile from "./component/adminProfile";
+import ClientInfo from "./component/ClientInfo";
+import ContactUs from "./component/ContactUs";
 
 import {
   BrowserRouter as Router,
@@ -23,7 +25,10 @@ class App extends Component {
             <Route exact path="/signup" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/adminProfile" component={AdmminProfile} />
-            <Route path="/owner" component={information} />
+            <Route path="/owner" component={OwnerInfo} />
+            <Route path="/contactus" component={ContactUs} />
+
+            <Route path="/client" component={ClientInfo} />
             <Route path="/edit" component={AdminEdit} />
             <Route path="/home" component={Home} />
           </Switch>

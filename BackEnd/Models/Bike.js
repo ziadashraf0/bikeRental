@@ -16,7 +16,7 @@ const BikeSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId, ref: 'Owner'
 
     }
-    stationLocation: {
+    ,stationLocation: {
         type: mongoose.Schema.ObjectId, ref: 'Station'
 
     }

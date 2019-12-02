@@ -3,64 +3,65 @@ import React, { Component } from "react";
 import "./Login.css";
 import Register from "./Register";
 import { validate } from "@babel/types";
-import { adminRegister,adminLogin } from "../services/adminServices";
+import { adminRegister, adminLogin } from "../services/adminServices";
 
 class Login extends Component {
-    reqBody = {
-        "userName": "",
-        "password": ""
-       
-    };
+  reqBody = {
+    userName: "",
+    password: ""
+  };
   state = {
     namee: "",
     passwordd: ""
-    };
-    nextPath() {
-        let path = "/home";
-        this.props.history.push(path);
-    }
-
+  };
+  nextPath() {
+    let path = "/home";
+    this.props.history.push({
+      pathname: path,
+      state: {
+        userName: this.state.namee
+      }
+    });
+  }
+  contactus() {
+    let path = "/contactus";
+    this.props.history.push(path);
+  }
   validateEmail = () => {
     this.state.namee = document.getElementById("username").value;
-      this.state.passwordd = document.getElementById("password").value;
- 
+    this.state.passwordd = document.getElementById("password").value;
+
     var regexname = /\S+/;
 
     if (
       regexname.test(this.state.namee) == 0 ||
       regexname.test(this.state.passwordd) == 0
     ) {
-        alert("validation");
-        return false;
+      alert("validation");
+      return false;
     } else {
-        //let path = "/home";
-        this.props.history.push();
-        return true;
+      //let path = "/home";
+      this.props.history.push();
+      return true;
     }
-    };
+  };
 
+  async onClick() {
+    if (this.validateEmail()) {
+      this.reqBody.userName = this.state.namee;
 
-    async onClick() {
+      this.reqBody.password = this.state.passwordd;
 
-        if (this.validateEmail()) {
-            this.reqBody.userName = this.state.namee
-            
-            this.reqBody.password = this.state.passwordd
-
-            try {
-                await adminLogin(this.reqBody)
-                this.nextPath();
-            } catch (error) {
-                if (error.response.status === 404) {
-                    alert('UserName or Password is Incorrect');
-                }
-            };
-
-
-
-
+      try {
+        await adminLogin(this.reqBody);
+        this.nextPath();
+      } catch (error) {
+        if (error.response.status === 404) {
+          alert("UserName or Password is Incorrect");
         }
+      }
     }
+  }
   render() {
     return (
       <body id="login" className="backGround">
@@ -75,7 +76,7 @@ class Login extends Component {
             onSubmit={this.login}
             className="col-sm-6 offset-sm-3 text-center pt-5"
           >
-                    <form className="loginForm" id="loginForm">
+            <form className="loginForm" id="loginForm">
               <input
                 type="text"
                 validations={["required", "isEmail"]}
@@ -100,14 +101,21 @@ class Login extends Component {
             </form>
             <br></br>
             <div class="col text-cener"></div>
-                    <button className="btn btn-danger " onClick={this.onClick.bind(this)}>
+            <button
+              className="btn btn-danger "
+              onClick={this.onClick.bind(this)}
+            >
               login
             </button>
           </div>
           <a className="bottom-left m-5" href="">
             About Us
           </a>
-          <a className="cont bottom-left " href="">
+          <a
+            className="cont bottom-left "
+            href=""
+            onClick={() => this.contactus()}
+          >
             Contact Us
           </a>
         </div>

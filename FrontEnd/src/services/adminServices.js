@@ -18,3 +18,35 @@ export  async function adminLogin(reqBody) {
 
 
 };
+export async function adminEditEmail(reqBody) {
+    alert('edit email');
+    console.log(reqBody);
+
+    return await http.put('http://localhost:4000/admin/edit/email', stringify(reqBody));
+
+
+};
+export async function adminEditPhone(reqBody) {
+
+    console.log(reqBody);
+
+    return await http.put('http://localhost:4000/admin/edit/phone', stringify(reqBody));
+
+
+};
+export async function adminEditPassword(reqBody) {
+
+    console.log(reqBody);
+
+    return await http.put('http://localhost:4000/admin/edit/password', stringify(reqBody));
+
+
+};
+export async function adminEditBirthDate(reqBody) {
+
+    console.log(reqBody);
+
+    return await http.put('http://localhost:4000/admin/edit/birthDate', stringify(reqBody));
+
+
+};

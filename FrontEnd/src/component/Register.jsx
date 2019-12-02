@@ -3,7 +3,7 @@ import { directive } from "@babel/types";
 import "./Register.css";
 import login from "./Login";
 import Route from "react-router-dom/Route";
-import { adminRegister} from "../services/adminServices";
+import { adminRegister } from "../services/adminServices";
 
 import {
   withRouter,
@@ -13,20 +13,24 @@ import {
   Redirect
 } from "react-router-dom";
 class Register extends Component {
-    reqBody = {
-        name: "",
-        password: " ",
-        email: "",
-        SSN: ""
-    };
+  reqBody = {
+    name: "",
+    password: " ",
+    email: "",
+    SSN: ""
+  };
   state = {
     namee: "",
     passwordd: " ",
     email: "",
-      SSN: ""
+    SSN: ""
   };
   nextPath() {
     let path = "/login";
+    this.props.history.push(path);
+  }
+  contactus() {
+    let path = "/contactus";
     this.props.history.push(path);
   }
 
@@ -38,43 +42,36 @@ class Register extends Component {
     var regex = /\S+@\S+\.\S+/;
     var regexname = /\S+/;
 
-      if (
-          regex.test(this.state.email) == 0 ||
-          regexname.test(this.state.namee) == 0 ||
-          regexname.test(this.state.passwordd) == 0 ||
-          regexname.test(this.state.SSN) == 0
-        
+    if (
+      regex.test(this.state.email) == 0 ||
+      regexname.test(this.state.namee) == 0 ||
+      regexname.test(this.state.passwordd) == 0 ||
+      regexname.test(this.state.SSN) == 0
     ) {
       alert("validation error");
-        this.props.history.push();
-        return false;
-      }
-      return true;
-   
-    };
-   
-  async onClick() {
-
-        if (this.validateEmail()) {
-            this.reqBody.name = this.state.namee
-            this.reqBody.email = this.state.email
-            this.reqBody.password = this.state.passwordd
-            this.reqBody.SSN = this.state.SSN
-           
-            try {
-                await adminRegister(this.reqBody)
-                this.nextPath();
-            } catch(error){
-                if (error.response.status === 400) {
-                    alert('already exists');
-                }
-            };
-            
-
-
-
-        }
+      this.props.history.push();
+      return false;
     }
+    return true;
+  };
+
+  async onClick() {
+    if (this.validateEmail()) {
+      this.reqBody.name = this.state.namee;
+      this.reqBody.email = this.state.email;
+      this.reqBody.password = this.state.passwordd;
+      this.reqBody.SSN = this.state.SSN;
+
+      try {
+        await adminRegister(this.reqBody);
+        this.nextPath();
+      } catch (error) {
+        if (error.response.status === 400) {
+          alert("already exists");
+        }
+      }
+    }
+  }
   render() {
     return (
       <body className="register">
@@ -83,8 +80,8 @@ class Register extends Component {
             {" "}
             Sign up{" "}
           </h1>
-                <br></br>
-                <form className="registerForm" id="registerForm" >
+          <br></br>
+          <form className="registerForm" id="registerForm">
             <div className="form-group" className="text-center mb-5">
               <input
                 type="text"
@@ -120,15 +117,12 @@ class Register extends Component {
                 className="form-control "
               />
               <br></br>
-                        <button
-                            className="btn btn-danger m-3"
-                            type="button"
-                            onClick={this.onClick.bind(this)}
-                            
-                         
-                    
-      >
-        Register
+              <button
+                className="btn btn-danger m-3"
+                type="button"
+                onClick={this.onClick.bind(this)}
+              >
+                Register
               </button>
 
               {}
@@ -141,7 +135,7 @@ class Register extends Component {
           <a className="bottom-left m-5" href="">
             About Us
           </a>
-          <span className="cont">
+          <span className="cont" onClick={() => this.contactus()}>
             <a href="">Contact Us</a>
           </span>
         </div>
