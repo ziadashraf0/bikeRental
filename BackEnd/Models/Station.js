@@ -1,15 +1,23 @@
 const mongoose = require('mongoose');
 const StationSchema = new mongoose.Schema({
 
-    location: {
+    name: {
         type: String,
         primaryKey: true,
         required: true,
         unique: true
     },
-    capacity: Number,
-    bikesNumber :Number,
-	ridesNumber:Number
+    longitude:{
+     type:   mongoose.Decimal128,
+     required:true
+    },
+    latitude:{
+        type:   mongoose.Decimal128,
+        required:true
+       },
+    maxCapacity: Number,
+    numberBikes :Number,
+	numberRides:Number
 
 });
 module.exports = mongoose.model('Station', StationSchema);
