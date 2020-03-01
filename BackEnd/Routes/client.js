@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/viewProfile", async (req, res) => {
+router.post("/viewProfile", async (req, res) => {
   if (!req.body.SSN) {
     return res.status(400).send("Bad Request");
   }
