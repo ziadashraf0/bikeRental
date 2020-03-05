@@ -13,7 +13,9 @@ import {
   BrowserRouter as Router,
   Link,
   Switch,
-  Redirect
+  Redirect,
+  useHistory,
+  useLocation
 } from "react-router-dom";
 import Route from "react-router-dom/Route";
 class App extends Component {
@@ -22,15 +24,16 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <Route exact path="/signup" component={Register} />
+            <Route exact path="/" component={Login} />
+            <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
+            <Route path="/signup" component={Register} />
             <Route path="/adminProfile" component={AdmminProfile} />
             <Route path="/owner" component={OwnerInfo} />
             <Route path="/contactus" component={ContactUs} />
 
             <Route path="/client" component={ClientInfo} />
             <Route path="/edit" component={AdminEdit} />
-            <Route path="/home" component={Home} />
           </Switch>
         </div>
       </Router>

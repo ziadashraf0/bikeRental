@@ -1,34 +1,38 @@
 import React, { Component } from "react";
 import "./adminProfile.css";
+//import { adminProfile } from "../services/adminServices";
 class information extends Component {
-  state = {};
+  state = {
+    userName: "",
+    SSN: "",
+    email: "",
+    phoneNum: ""
+  };
+
   render() {
     return (
       <body className="test">
         <div>
           <table class="table text-light">
             <tbody>
-              <th scope="row">Image</th>
-
-              <th scope="col">{this.state.Image}</th>
               <tr>
                 <th scope="row">SSN</th>
 
-                <th scope="col">{this.state.SSN}</th>
+                <th scope="col">{this.props.location.state.SSN}</th>
               </tr>
               <tr>
                 <th scope="row">Username</th>
-                <th scope="col">{this.state.userName}</th>
+                <th scope="col">{this.props.location.state.userName}</th>
               </tr>
 
               <tr>
                 <th scope="row">Email</th>
-                <th scope="col">{this.state.email}</th>
+                <th scope="col">{this.props.location.state.email}</th>
               </tr>
 
               <tr>
-                <th scope="row">bikeID</th>
-                <th scope="col">{this.state.bikeID}</th>
+                <th scope="row">Phone number</th>
+                <th scope="col">{this.props.location.state.phoneNum}</th>
               </tr>
             </tbody>
           </table>

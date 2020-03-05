@@ -27,6 +27,10 @@ class Login extends Component {
     let path = "/contactus";
     this.props.history.push(path);
   }
+  register() {
+    let path = "/signup";
+    this.props.history.push(path);
+  }
   validateEmail = () => {
     this.state.namee = document.getElementById("username").value;
     this.state.passwordd = document.getElementById("password").value;
@@ -107,6 +111,9 @@ class Login extends Component {
             >
               login
             </button>
+            <a className="m-4" onClick={() => this.register()} href=" ">
+              Create account
+            </a>
           </div>
           <a className="bottom-left m-5" href="">
             About Us

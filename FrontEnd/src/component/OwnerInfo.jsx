@@ -36,10 +36,41 @@ class OwnerInfo extends Component {
       }
     }
   }
+  edit() {
+    let path = "/edit";
+    this.props.history.push({
+      pathname: path,
+      state: {
+        userName: this.props.location.state.userName
+      }
+    });
+  }
+  adminProfile() {
+    let path = "/adminProfile";
 
+    this.props.history.push(path);
+  }
+
+  home() {
+    let path = "/home";
+
+    this.props.history.push(path);
+  }
   render() {
     return (
       <div>
+        <div className="navbar">
+          <a href="" onClick={() => this.home()}>
+            Home
+          </a>
+          <a href="" onClick={() => this.adminProfile()}>
+            View profile
+          </a>
+          <a href="" onClick={() => this.edit()}>
+            Edit profile
+          </a>
+          <a href="">Send promocodes</a>
+        </div>
         <h1 className="header text-center text-white font-weight-bold font-weight-bold">
           Owner Information
         </h1>

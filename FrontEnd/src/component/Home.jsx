@@ -1,12 +1,17 @@
 import React, { Component, useState } from "react";
 import Dialog from "react-dialog";
 import "./Home.css";
-import { stringify } from "querystring";
-import DialogBody from "react-dialog/dist/DialogBody";
-import OwnerInfo from "./OwnerInfo";
 import { ownerIDSearch } from "../services/ownerServices";
 import { clientIDSearch } from "../services/clientServices";
+import List from "react-list-select";
+import Select from "react-select";
+import { SketchPicker } from "react-color";
+import { adminProfile } from "../services/adminServices";
 
+const options = [
+  { value: "FatBikes", label: "Fat Bikes" },
+  { value: "FitnessBikes", label: "Fitness Bikes" }
+];
 class Home extends Component {
   state = {};
 
@@ -30,6 +35,11 @@ class Home extends Component {
         userName: this.props.location.state.userName
       }
     });
+  }
+  home() {
+    let path = "/";
+
+    this.props.history.push(path);
   }
 
   home() {
@@ -56,12 +66,18 @@ class Home extends Component {
       }
     });
   }
-  adminProfile() {
-    let path = "/adminProfile";
-
-    this.props.history.push(path);
+  adminInf() {
+    this.state.userName = this.props.location.state.userName;
+    this.props.history.push({
+      pathname: "/adminProfile",
+      state: {
+        userName: this.state.userName,
+        SSN: this.state.SSN,
+        email: this.state.email,
+        phoneNum: this.state.phoneNum
+      }
+    });
   }
-
   async onClick() {
     this.state.ownerSSN = document.getElementById("SSN").value;
     this.state.clientSSN = document.getElementById("SSN").value;
@@ -95,16 +111,47 @@ class Home extends Component {
   // handleConfirmClose = () => this.setState({ isConfirmDialogOpen: false });
   // handleRemoveClose = () => this.setState({ isRemoveDialogOpen: false });
   handlePromoCodeClose = () => this.setState({ isPromoCodeDialogOpen: false });
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };
+
+  handleChangeComplete = color => {
+    this.setState({ background: color.hex });
+  };
+  async componentWillMount() {
+    this.reqBody.userName = this.props.location.state.userName;
+
+    try {
+      const result = await adminProfile(this.reqBody);
+
+      this.state.userName = result[0].userName;
+      this.state.SSN = result[0].SSN;
+      this.state.email = result[0].email;
+      this.state.phoneNum = result[0].phoneNum;
+      console.log(this.state.email);
+    } catch (error) {
+      if (error.response.status === 404) {
+        alert("UserName or Password is Incorrect");
+      }
+    }
+  }
   render() {
+    const { selectedOption } = this.state;
+
     return (
       <body>
         <div className="navbar">
-          <a href="" onClick={() => this.adminProfile()}>
+          <a href="" onClick={() => this.home()}>
+            Home
+          </a>
+          <a href="" onClick={this.adminInf.bind(this)}>
             View profile
           </a>
           <a href="" onClick={() => this.edit()}>
             Edit profile
           </a>
+
           <a href="">Send promocodes</a>
         </div>
         <div className="handle">
@@ -146,11 +193,19 @@ class Home extends Component {
                 </div>
                 <div className="form-group">
                   <label>Add Bike Category: </label>
-                  <input type="text" />
+                  <Select
+                    className="text-primary"
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                  />
                 </div>
                 <div className="form-group">
                   <label>Add Bike Color: </label>
-                  <input type="text" />
+                  <SketchPicker
+                    color={this.state.background}
+                    onChangeComplete={this.handleChangeComplete}
+                  />
                 </div>
                 <div className="form-group">
                   <label>Add Bike Size: </label>
