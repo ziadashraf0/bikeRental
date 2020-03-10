@@ -1,24 +1,25 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 const BikeSchema = new mongoose.Schema({
-    ID: {
-        type: Number,
-        primaryKey: true,
-        unique: true,
-        required: true,
+        
+    state: {
+        type:String,
+        enum:['Available','Not Available']
     },
-    state: String,
     category: String,
     colour: String,
     size: Number,
     condition: String,
     rate: Number,           //decimal
     ownerSSN: {
-        type: mongoose.Schema.ObjectId, ref: 'Owner'
+        type:String ,field:'SSN', ref: 'Owner'
 
     }
     ,stationLocation: {
-        type: mongoose.Schema.ObjectId, ref: 'Station'
+        type: String,field:'location', ref: 'Station'
 
     }
 });
+autoIncrement.initialize(mongoose);
+BikeSchema.plugin(autoIncrement.plugin, 'Bike');
 module.exports = mongoose.model('Bike', BikeSchema);

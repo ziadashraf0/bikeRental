@@ -5,8 +5,8 @@ const express = require("express");
 const router = express.Router();
 
 router.post('/addBike',async (req,res)=>{
-
-    const result= await Owner.find({SSN:parseInt(req.body.SSN)});
+    console.log(req.body);
+    const result= await Owner.find({SSN:req.body.ownerSSN});
     if(result.length===0)
     {
         console.log('Not Found');
@@ -16,13 +16,13 @@ router.post('/addBike',async (req,res)=>{
 
     const bike=new Bike({
         
-    ownerSSN:result[0].SSN,
-    state:req.body.state ,
-    category: req.body.category,
-    colour: req.body.colour,
-    size: parseInt(req.body.size),
-    condition: req.body.condition,
-    rate: parseFloat(req.body.rate), 
+    ownerSSN:result[0].ownerSSN,
+    state:"Not Available" ,
+    category: req.body.bikeCategory,
+    colour: req.body.bikeColour,
+    size: parseInt(req.body.bikeSize),
+    condition: req.body.bikeCondition,
+    rate: parseFloat(req.body.bikeRate), 
     
     
     });

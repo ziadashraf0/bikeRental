@@ -4,11 +4,13 @@ const autoIncrement = require('mongoose-auto-increment');
 const DependentSchema=new mongoose.Schema({
         
     
-        name: String,
+        firstName: String,
+        lastName:String,
+        userName:String,
         birthDate: Date,
         relationship: String,
-        password:String
-
+        password:String,
+        email:String
     });
     DependentSchema.pre('save', function (next) {
         const user = this

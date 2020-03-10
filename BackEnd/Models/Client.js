@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-const autoIncrement = require("mongoose-auto-increment");
+var bcrypt = require('bcryptjs');
+const autoIncrement = require('mongoose-auto-increment');
 const Ride = require("../Models/Ride");
 const Dependent = require("../Models/Dependent");
 
@@ -11,12 +11,14 @@ const ClientSchema = new mongoose.Schema({
     unique: true,
     primaryKey: true
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true
+  userName:{
+    type:String,
+    required:true,
+    unique:true
   },
-  userName: {
+  activated:Boolean
+  ,
+  email: {
     type: String,
     required: true,
     unique: true
@@ -27,22 +29,20 @@ const ClientSchema = new mongoose.Schema({
   lastName: String,
   birthDate: Date,
   bankAccountNumber: {
-    type: String,
-    field: "bankAccountNumber",
-    ref: "Bank"
+    type: String
   },
-  dependent: [Dependent.schema],
-  ride: [Ride.schema]
+  dependent: [ Dependent.schema ],
+  ride: [Ride.schema  ]
 });
-ClientSchema.pre("save", function(next) {
-  const user = this;
+ClientSchema.pre('save', function (next) {
+  const user = this
 
-  bcrypt.hash(user.password, 10, function(err, encrypted) {
+  bcrypt.hash(user.password, 10, function (err, encrypted) {
     if (err) throw err;
-    user.password = encrypted;
-    next();
-  });
-});
+    user.password = encrypted
+    next()
+  })
+})
 //autoIncrement.initialize(mongoose);
 //ClientSchema.plugin(autoIncrement.plugin, 'Client');
 module.exports = mongoose.model("Client", ClientSchema);
