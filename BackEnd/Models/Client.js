@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 var bcrypt = require('bcryptjs');
 const autoIncrement = require('mongoose-auto-increment');
 const Ride = require("../Models/Ride");
-const Dependent = require("../Models/Dependent");
 
 const ClientSchema = new mongoose.Schema({
   SSN: {
@@ -34,7 +33,7 @@ const ClientSchema = new mongoose.Schema({
   rides: [],
   state: {
     type:String,
-    enum:['Available','Unavailable']},
+    enum:['Available','Not Available']},
 
   activated:Boolean,
   isDependent:Boolean,
