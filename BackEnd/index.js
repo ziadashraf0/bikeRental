@@ -9,6 +9,7 @@ const Bike = require('./Routes/bike');
 const Client = require('./Routes/client');
 const Station = require('./Routes/station');
 const Bank = require('./Routes/bank');
+const Dependent=require('./Routes/dependent');
 var BodyParser = require("body-parser");
 var cors = require('cors');
 
@@ -18,7 +19,7 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 
 //Connecting to Beskleta DataBase ;
-mongoose.connect('mongodb://localhost/Beskleta', { useNewUrlParser: true, useUnifiedTopology: true }).then(
+mongoose.connect('mongodb://localhost/Beskleta', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(
     () => { /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
         console.log("DATABASE Created !")
     },
@@ -32,5 +33,5 @@ app.use('/admin', Admin);
 app.use('/client', Client);
 app.use('/station', Station);
 app.use('/bank', Bank);
-
+app.use('/dependent',Dependent);
 app.listen(portNumber, () => console.log(`listening to port #${portNumber}`));

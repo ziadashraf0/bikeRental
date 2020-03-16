@@ -4,8 +4,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt=require('bcryptjs');
 const Bank = require("../Models/Bank");
+const Notification = require("../Models/Notification");
 const date = require('date-and-time');
-
+const allowedAge =21;
 router.post("/IDsearch", async (req, res) => {
   console.log(req.body);
   result = await Client.find({
@@ -73,6 +74,27 @@ router.post("/signup", async (req, res) => {
     console.log("already exists");
     return res.status(400).send("Already  Exists");
   }
+  const birthDate=new Date(req.body.birthDate);
+
+
+  var clientAge=  parseInt(date.format(new Date(),"YYYY"))-parseInt(date.format(birthDate,"YYYY"));
+  
+  if(parseInt(date.format(new Date(),"MM"))<parseInt(date.format(birthDate,"MM")))
+      clientAge=clientAge-1;
+  else if(parseInt(date.format(new Date(),"MM"))===parseInt(date.format(birthDate,"MM")))    {
+          if(parseInt(date.format(new Date(),"DD"))<parseInt(date.format(birthDate,"DD")))
+                  clientAge=clientAge-1;
+  
+  
+  }
+
+var IsDependent= false;
+if(clientAge<allowedAge)
+  {
+    IsDependent=true;
+  }
+
+
   let client = new Client({
     SSN: req.body.SSN,
     email: req.body.email,
@@ -82,18 +104,25 @@ router.post("/signup", async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     birthDate: req.body.birthDate,
     userName: req.body.userName,
-    ride:[],
-    dependent:[],
-    activated:false
+    dependents:[],
+    rides:[],
+    activated:false,
+    isDependent:IsDependent,
+    state:'Available',
+    Notifications:[]
   });
   try {
     client = await client.save();
     return res.status(200).send(client);
+
+    
   } catch (error) {
     console.log("ERROR");
     return res.status(400).send(error);
   }
-  console.log(req.body);
+
+  //const results =await Client.update({SSN:req.body.SSN}, { $set: { activated:false,isDependent:IsDependent } });
+  //console.log(req.body);
 
   
 });
@@ -261,7 +290,8 @@ router.put('/editBirthDate',async (req,res)=>{
     
     });
 
-//Activate client's account
+//Activate client's account 
+//Adding payement method (credit Card)
 router.put('/activateAccount',async (req,res)=>{
       
   const now = new Date();
@@ -270,9 +300,9 @@ router.put('/activateAccount',async (req,res)=>{
   
   const currentDate=date.format(now,"YYYY/MM");
   const clientCardvalidityDate= date.format(new Date(req.body.cardValidityDate),"YYYY/MM");
-
+// Checking Card Validity against Expiry Date
   if(currentDate> clientCardvalidityDate)  return res.status(400).send("Your Card is Expired");
-
+// Searching for the card 
   const clientBankAccount =await Bank.findOne({cardVerificationCode:req.body.cardVerificationCode,cardNumber:req.body.cardNumber});
   if(!clientBankAccount) return res.status(404).send("Card is UNauthorized");
   const realValidityDate = date.format(new Date(clientBankAccount.cardValidityDate),"YYYY/MM");
@@ -281,6 +311,7 @@ router.put('/activateAccount',async (req,res)=>{
   const bankAccountNumber= clientBankAccount.bankAccountNumber;
  
  //updating clients personnel details
+ //Bank Account Number and setting the account to be activated
   try{
             const client =await Client.findOne({SSN:req.body.SSN});
           await Client.updateOne({_id:client._id},{$set:{bankAccountNumber:bankAccountNumber,activated:true}});
@@ -292,5 +323,58 @@ router.put('/activateAccount',async (req,res)=>{
   }
 
 });
-    
+router.put('/activateDependentAccount',async(req,res)=>{
+    if(!req.body.parentEmail|| !req.body.parentSSN) return res.status(400).send("BAD REQUEST");
+
+    const parent=await Client.findOne({SSN:req.body.parentSSN,email:req.body.parentEmail});
+    if(!parent) return res.status(404).send("Parent was not found");
+    // chech that parent account is not a parent account or the parent account is not activated 
+    if(parent.isDependent || !parent.activated) return res.status(400).send("Your Parent is Underaged Or Not Activated");
+
+
+const notification = new Notification({
+          type:"Dependent Request",
+          viewed:false,
+          message:"Do you accept me to be your son"
+   
+  });
+  try{
+const result =await Client.updateOne({_id:parent._id},{$push:{Notifications:notification}});
+return res.status(200).send();
+  }catch(error){
+    console.log(error);
+    return res.status(400).send("error");
+  }
+
+
+});
+router.put('/confirmingDependent',async(req,res)=>{
+
+  if(!req.body.email|| !req.body.dependentEmail) return res.status(400).send("BAD Request");
+
+  const parent= await Client.findOne({email:req.body.email});
+  if(!parent) return res.status(404).send("parent was not found");
+  const dependent= await Client.findOne({email:req.body.dependentEmail});
+  if(!dependent) return res.status(404).send("dependent was not found");  
+  const notification = new Notification({
+    type:"Request Confirmed",
+    viewed:false,
+    message:"Your Account is activated by your parent"
+
+});
+
+  try{
+      await Client.updateOne({_id:parent._id},{$push:{dependents:dependent._id}});
+      await Client.updateOne({_id:dependent._id},{$set:{parentID:parent._id}});
+      await Client.updateOne({_id:dependent._id},{$push:{Notifications:notification}});
+      return res.status(200).send();
+  }catch(error)
+{
+  console.log(error);
+  return res.status(400).send("ERROR");
+}
+
+
+});
+
 module.exports = router;

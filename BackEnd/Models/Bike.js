@@ -4,7 +4,7 @@ const BikeSchema = new mongoose.Schema({
         
     state: {
         type:String,
-        enum:['Available','Not Available']
+        enum:['Available','Unvailable']
     },
     category: String,
     colour: String,

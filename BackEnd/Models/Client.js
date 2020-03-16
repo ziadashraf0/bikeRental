@@ -15,8 +15,7 @@ const ClientSchema = new mongoose.Schema({
     type:String,
     required:true,
     unique:true
-  },
-  activated:Boolean
+  }
   ,
   email: {
     type: String,
@@ -31,8 +30,16 @@ const ClientSchema = new mongoose.Schema({
   bankAccountNumber: {
     type: String
   },
-  dependent: [ Dependent.schema ],
-  ride: [Ride.schema  ]
+  dependents: [ Number ],
+  rides: [],
+  state: {
+    type:String,
+    enum:['Available','Unavailable']},
+
+  activated:Boolean,
+  isDependent:Boolean,
+  parentID:Number,
+  Notifications:[]
 });
 ClientSchema.pre('save', function (next) {
   const user = this
@@ -43,6 +50,6 @@ ClientSchema.pre('save', function (next) {
     next()
   })
 })
-//autoIncrement.initialize(mongoose);
-//ClientSchema.plugin(autoIncrement.plugin, 'Client');
+autoIncrement.initialize(mongoose);
+ClientSchema.plugin(autoIncrement.plugin, 'Client');
 module.exports = mongoose.model("Client", ClientSchema);
