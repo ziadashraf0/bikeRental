@@ -26,9 +26,6 @@ router.post('/addBankAccount',async (req,res)=>{
     const year=now.getFullYear()%100+3;
     console.log("year: "+year);
     const validityDate = date.addYears(now, 3);
-    //const x=date.format(validityDate,"MM/YYYY");
-
-    //const validityDate= month+"/"+year;
 
     const newBankAccount = new Bank({
         email:req.body.email,

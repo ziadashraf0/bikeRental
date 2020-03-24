@@ -4,6 +4,10 @@ const express = require("express");
 const router = express.Router();
 const bcrypt=require('bcryptjs');
 const Bank = require("../Models/Bank");
+const Bike = require("../Models/Bike");
+const Station = require("../Models/Station");
+
+const Ride = require("../Models/Ride");
 const Notification = require("../Models/Notification");
 const date = require('date-and-time');
 const allowedAge =21;
@@ -374,6 +378,57 @@ router.put('/confirmingDependent',async(req,res)=>{
   return res.status(400).send("ERROR");
 }
 
+
+});
+router.post('/requestRide',async (req,res)=>{
+  const randomPIN= parseInt(Math.random()*10000);
+  console.log(randomPIN);
+  if(!req.body.SSN || !req.body.userName|| !req.body.stationName || !req.body.bikeID) return res.status(404).send("BAD REQUEST");
+  // checking if a client exists
+  const client= await Client.findOne({SSN:req.body.SSN,userName:req.body.userName,state:'Available'});
+  if(!client) return res.status(400).send("Client was not found or is NOT AVAILABLE");
+  // Chhecking if the client's account is activated
+  if(!client.activated) return res.status(404).send("Client is not activated");
+  
+  //checking if the bike is available or not
+  const bike=await Bike.findOne({_id:req.body.bikeID,stationName:req.body.stationName,state:'Available'});
+  if(!bike) return res.status(404).send("Bike was not found or It was found NOT AVAILABLE at the moment ");
+
+  if(bike.state === 'Available'){
+      
+        try{
+                //Update bike to be Not Available
+                await Bike.updateOne({_id:bike._id},{$set:{state:'Not Available'}});
+
+                const notification = new Notification({
+                  type:"Ride Request",
+                  viewed:false,
+                  message:"Your Ride Request is Confirmed.  Use the PIN Code to Unlock your Bike.  PIN:"+ randomPIN
+              
+              });
+  
+                    
+              await Client.updateOne({_id:client._id},{$push:{Notifications:notification}});
+              await Client.updateOne({_id:client._id},{$set:{state:'Not Available'}});
+
+              await Station.updateOne({name:req.body.stationName},{$inc:{numberBikes:-1}});
+              await Bike.updateOne({_id:bike._id},{$set:{stationName:'riding'}});
+
+              const ride = new Ride({
+                bikeID:bike._id,
+                departureStation:req.body.stationName
+            
+            });
+            await Client.updateOne({_id:client._id},{$push:{rides:ride}});
+
+              
+                                return res.send("OK");
+        }catch(error){
+          return res.status(400).send("ERROR");
+        }
+  }else{
+    return res.status(404).send("Bike is NOT AVAILABLE at the moment");
+  }
 
 });
 

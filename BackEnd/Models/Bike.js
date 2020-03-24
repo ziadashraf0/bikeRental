@@ -11,14 +11,8 @@ const BikeSchema = new mongoose.Schema({
     size: Number,
     condition: String,
     rate: Number,           //decimal
-    ownerSSN: {
-        type:String ,field:'SSN', ref: 'Owner'
-
-    }
-    ,stationLocation: {
-        type: String,field:'location', ref: 'Station'
-
-    }
+    ownerSSN:String 
+     ,stationName: String
 });
 autoIncrement.initialize(mongoose);
 BikeSchema.plugin(autoIncrement.plugin, 'Bike');
