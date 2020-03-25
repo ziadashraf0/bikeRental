@@ -432,4 +432,12 @@ router.post('/requestRide',async (req,res)=>{
 
 });
 
+router.post('/  ',async(req,res)=>{
+  if(!req.body.userName) return res.status(400).send("BAD REQUEST");
+  const client=await Client.findOne({userName:req.body.userName});
+  if(!client) return res.status(404).send("Client was not found");
+
+  return res.status(200).send(client.Notifications);
+
+});
 module.exports = router;
