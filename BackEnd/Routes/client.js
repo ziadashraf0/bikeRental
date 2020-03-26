@@ -320,7 +320,7 @@ router.put('/activateDependentAccount',async(req,res)=>{
 const notification = new Notification({
           type:"Dependent Request",
           viewed:false,
-          message:"Do you accept "+ req.body.dependentUserName+ "to be your son"
+          message:"Do you accept "+ req.body.dependentUserName+ " to be your son"
    
   });
   try{
