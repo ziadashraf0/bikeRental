@@ -8,7 +8,8 @@ const NotificationSchema = new mongoose.Schema({
       enum:['Dependent Request','Request Confirmed','Promo Code','Ride Request']
   },
   viewed:Boolean,
-  message:String
+  message:String,
+  dependentEmail:String
 });
 
 

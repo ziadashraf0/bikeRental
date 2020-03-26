@@ -148,10 +148,10 @@ router.post("/login", async (req, res) => {
 
 
 router.post('/viewProfile',async (req,res)=>{
-  if(!req.body.SSN) return res.status(400).send("Bad Request")
+  if(!req.body.userName) return res.status(400).send("Bad Request")
       
     
-  const client = await Client.findOne({SSN:req.body.SSN}).select({password:0});
+  const client = await Client.findOne({userName:req.body.userName}).select({password:0});
   if(!client) return res.status(404).send("client was not found");
 
  return res.status(200).send(client);   
@@ -309,7 +309,7 @@ router.put('/activateAccount',async (req,res)=>{
 
 });
 router.put('/activateDependentAccount',async(req,res)=>{
-    if(!req.body.parentEmail|| !req.body.parentSSN|| !req.body.dependentUserName) return res.status(400).send("BAD REQUEST");
+    if(!req.body.parentEmail|| !req.body.parentSSN|| !req.body.dependentUserName ||!req.body.dependentEmail) return res.status(400).send("BAD REQUEST");
 
     const parent=await Client.findOne({SSN:req.body.parentSSN,email:req.body.parentEmail});
     if(!parent) return res.status(404).send("Parent was not found");
@@ -320,7 +320,8 @@ router.put('/activateDependentAccount',async(req,res)=>{
 const notification = new Notification({
           type:"Dependent Request",
           viewed:false,
-          message:"Do you accept "+ req.body.dependentUserName+ " to be your son"
+          message:"Do you accept "+ req.body.dependentUserName+ " to be your son",
+          dependentEmail:req.body.dependentEmail
    
   });
   try{
