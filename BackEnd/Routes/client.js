@@ -131,94 +131,77 @@ if(clientAge<allowedAge)
   
 });
 router.post("/login", async (req, res) => {
-  console.log(req.body);
-  result = await Client.find({
-    userName: req.body.userName
-  });
+ if(!req.body.userName ||!req.body.password ) return res.status(400).send("BAD REQUEST"); 
+  result = await Client.findOne({userName: req.body.userName});
 
-  if (result.length === 0) {
-    console.log("not found");
-    return res.status(404).send("client is not found");
-  }
-  const hash = result[0].password;
+  if (!result) return res.status(404).send("Wrong UserName or Password");
+  
+  const hash = result.password;
   const results = await bcrypt.compare(req.body.password, hash);
   if (results === true) {
     console.log("AUTHORIZED");
     return res.status(200).send("AUTHORIZED");
   } else {
-    console.log("Not found");
-    return res.status(404).send("not found");
+    return res.status(404).send("Wrong UserName or Password");
   }
 });
 
 
 router.post('/viewProfile',async (req,res)=>{
-  if(!req.body.SSN)
-    {
-     return res.status(400).send("Bad Request")
+  if(!req.body.SSN) return res.status(400).send("Bad Request")
       
-    }
-  const client = await Client.find({SSN:req.body.SSN}).select({password:0});
-  if(client.length<1)
-    {
-     return res.status(404).send("client was not found");
-      
-    }
- return res.status(200).send(client[0]);   
+    
+  const client = await Client.findOne({SSN:req.body.SSN}).select({password:0});
+  if(!client) return res.status(404).send("client was not found");
+
+ return res.status(200).send(client);   
 });
 
 router.put('/editEmail',async (req,res)=>{
+if(!req.body.SSN || !req.body.email) return res.status(400).send('Bad Request');
+
 const client= await Client.findOne({SSN:req.body.SSN});
-if(!req.body.SSN || !req.body.email)
-    return res.status(400).send('Bad Request');
+if(!client) return res.status(404).send('Client was not found');
+
 const temp =await Client.findOne({email:req.body.email});
-if(temp){
-  return res.status(400).send('Bad Request email already in use');
+if(temp) return res.status(400).send('Bad Request email already in use');
 
-}
-    
-if(!client)
-  {
-    return res.status(404).send('Client was not found');
-    
-  }
-
-  await Client.updateOne({ _id: client._id }, { $set: { email: req.body.email } });
-
-  const newClient = await Client.findOne({ SSN: req.body.SSN });
+try{ 
+   await Client.updateOne({ _id: client._id }, { $set: { email: req.body.email } });
+const newClient = await Client.findOne({ SSN: req.body.SSN });
   console.log(newClient);
   return res.status(200).send(newClient);
 
+}catch (error){
+  res.status(400).send('ERROR email could not be updated');
+}
 });
 router.put('/editPhoneNumber',async (req,res)=>{
-  if(!req.body.SSN || !req.body.phoneNumber){
-    return res.status(400).send('Bad Request');
-  }
-  const client =await Client.findOne({SSN:req.body.SSN});
-  if(!client)
-  {
-    return res.status(404).send('Client was not found');
+  if(!req.body.SSN || !req.body.phoneNumber) return res.status(400).send('Bad Request');
 
+  const client =await Client.findOne({SSN:req.body.SSN});
+  if(!client) return res.status(404).send('Client was not found');
+
+ try{await Client.updateOne({_id:client._id},{$set:{phoneNumber:req.body.phoneNumber}});
+ const newClient = await Client.findOne({ SSN: req.body.SSN });
+ console.log(newClient);
+ return res.status(200).send(newClient);
+ }catch(error)
+  {
+    res.status(400).send('ERROR Phone Number could not be updated');
   }
-  await Client.updateOne({_id:client._id},{$set:{phoneNumber:req.body.phoneNumber}});
-  const newClient = await Client.findOne({ SSN: req.body.SSN });
-  console.log(newClient);
-  return res.status(200).send(newClient); 
 
   });
   
 router.put('/editPassword',async (req,res)=>{
 
-  if(!req.body.SSN || !req.body.newPassword|| !req.body.password){
-    return res.status(400).send('Bad Request');
-  }
+  if(!req.body.SSN || !req.body.newPassword|| !req.body.password) return res.status(400).send('Bad Request');
+  
 
 const client =await Client.findOne({SSN:req.body.SSN});
-if(!client)
-{
-  return res.status(404).send('Client was not found');
+if(!client) return res.status(404).send('Client was not found');
 
-}
+
     const hash=client.password;
     const results= await bcrypt.compare(req.body.password,hash);
 
@@ -251,46 +234,44 @@ if(!client)
 });
 
 router.put('/editBirthDate',async (req,res)=>{
-  if(!req.body.SSN || !req.body.birthDate){
-    return res.status(400).send('Bad Request');
-  }
-  const client =await Client.findOne({SSN:req.body.SSN});
-  if(!client)
-  {
-    return res.status(404).send('Client was not found');
+  if(!req.body.SSN || !req.body.birthDate) return res.status(400).send('Bad Request');
 
-  }
-  await Client.updateOne({_id:client._id},{$set:{birthDate:req.body.birthDate}});
+  const client =await Client.findOne({SSN:req.body.SSN});
+  if(!client) return res.status(404).send('Client was not found');
+
+  try {
+    await Client.updateOne({_id:client._id},{$set:{birthDate:req.body.birthDate}});
   const newClient = await Client.findOne({ SSN: req.body.SSN });
   console.log(newClient);
   return res.status(200).send(newClient); 
+  } catch (error) {
+    res.status(400).send('ERROR Birth Date could not be updated');
+
+  }
+  
 
   });
-  router.put('/editUserName',async (req,res)=>{
-    if(!req.body.SSN || !req.body.userName)
-    return res.status(400).send('Bad Request');
+router.put('/editUserName',async (req,res)=>{
+    if(!req.body.SSN || !req.body.userName) return res.status(400).send('Bad Request');
 
- 
     const client= await Client.findOne({SSN:req.body.SSN});
-
-    if(!client)
-      {
-        return res.status(404).send('Client was not found');
+    if(!client) return res.status(404).send('Client was not found');
         
-      }
+      
   const temp =await Client.findOne({userName:req.body.userName});
 
-    if(temp){
-      return res.status(400).send('Bad Request userName already in use');
-    
-    }
-    
-    
-      await Client.updateOne({ _id: client._id }, { $set: { userName: req.body.userName } });
+    if(temp)  return res.status(400).send('Bad Request userName already in use');
+try {
+   await Client.updateOne({ _id: client._id }, { $set: { userName: req.body.userName } });
     
       const newClient = await Client.findOne({ SSN: req.body.SSN });
       console.log(newClient);
       return res.status(200).send(newClient);
+} catch (error) {
+  res.status(400).send('ERROR UserName could not be updated');
+
+}
+     
     
     });
 
@@ -328,7 +309,7 @@ router.put('/activateAccount',async (req,res)=>{
 
 });
 router.put('/activateDependentAccount',async(req,res)=>{
-    if(!req.body.parentEmail|| !req.body.parentSSN) return res.status(400).send("BAD REQUEST");
+    if(!req.body.parentEmail|| !req.body.parentSSN|| !req.body.dependentUserName) return res.status(400).send("BAD REQUEST");
 
     const parent=await Client.findOne({SSN:req.body.parentSSN,email:req.body.parentEmail});
     if(!parent) return res.status(404).send("Parent was not found");
@@ -339,7 +320,7 @@ router.put('/activateDependentAccount',async(req,res)=>{
 const notification = new Notification({
           type:"Dependent Request",
           viewed:false,
-          message:"Do you accept me to be your son"
+          message:"Do you accept "+ req.body.dependentUserName+ "to be your son"
    
   });
   try{
@@ -432,7 +413,7 @@ router.post('/requestRide',async (req,res)=>{
 
 });
 
-router.post('/  ',async(req,res)=>{
+router.post('/viewNotifications',async(req,res)=>{
   if(!req.body.userName) return res.status(400).send("BAD REQUEST");
   const client=await Client.findOne({userName:req.body.userName});
   if(!client) return res.status(404).send("Client was not found");
