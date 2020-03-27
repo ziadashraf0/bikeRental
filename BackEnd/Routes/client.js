@@ -353,6 +353,8 @@ router.put('/confirmingDependent',async(req,res)=>{
       await Client.updateOne({_id:parent._id},{$push:{dependents:dependent._id}});
       await Client.updateOne({_id:dependent._id},{$set:{parentID:parent._id}});
       await Client.updateOne({_id:dependent._id},{$push:{Notifications:notification}});
+      await Client.updateOne({_id:dependent._id},{$set:{activated:true}});
+
       return res.status(200).send();
   }catch(error)
 {
