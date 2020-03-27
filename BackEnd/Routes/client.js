@@ -281,7 +281,7 @@ router.put('/activateAccount',async (req,res)=>{
       
   const now = new Date();
   
-  if(!req.body.cardValidityDate|| !req.body.cardVerificationCode|| !req.body.cardNumber) return res.status(400).send('Bad Request');
+  if(!req.body.cardValidityDate|| !req.body.cardVerificationCode|| !req.body.cardNumber|| !req.body.SSN) return res.status(400).send('Bad Request');
   
   const currentDate=date.format(now,"YYYY/MM");
   const clientCardvalidityDate= date.format(new Date(req.body.cardValidityDate),"YYYY/MM");
